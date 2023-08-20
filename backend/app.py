@@ -15,7 +15,7 @@ def return_home():
 
 @app.route("/api/multiply", methods=["GET", "POST"])
 def users():
-    print("users endpoint reached...")
+    print("multiply endpoint reached...")
     if request.method == "GET":
         with open("users.json", "r+") as f:
             data = json.load(f)
@@ -26,6 +26,7 @@ def users():
         number = received_data['data']
         multiplied = int(number) * 2
         return_data = f"{multiplied}"
+        print(f"returning: {return_data}")
         return flask.Response(response=json.dumps(return_data), status=201)
 
 

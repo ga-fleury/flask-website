@@ -1,4 +1,5 @@
 import { Inter } from 'next/font/google'
+import Head from 'next/head';
 import React, { useEffect, useState } from 'react';
 
 const inter = Inter({ subsets: ['latin'] })
@@ -10,10 +11,17 @@ export default function Home() {
   const [numberInput, setNumberInput] = useState(0);
   const date = new Date().toString()
 
+  /**
+   * Saves number value from input when it changes
+   * @param evt 
+   */
   const handleNumberInputChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setNumberInput(parseInt(evt.target.value));
   };
 
+  /**
+   * gets welcome message
+   */
   useEffect(() => {
     fetch("http://localhost:5000/api/home").then(
       response => response.json()
@@ -25,16 +33,19 @@ export default function Home() {
     )
   }, [])
 
+  /**
+   * makes POST request to BE and set param to BE response
+   * @param multipliedValue
+   */
   const multiplyByTwo = () => {
-    let dataToSend = numberInput
-    console.log(dataToSend)
+    console.log(numberInput)
     fetch("http://localhost:5000/api/multiply", {
       method: "POST", // or 'PUT'
       headers: {
         "Content-Type": "application/json;charset=UTF-8",
       },
       body: JSON.stringify({
-        "data": dataToSend
+        "data": numberInput
       }),
     }).then(
       response => response.json()
@@ -49,11 +60,16 @@ export default function Home() {
 
   return (
     <main
-      className={`flex min-h-screen flex-col items-center justify-center p-24 ${inter.className}`}
+      className={`flex min-h-screen flex-col items-center justify-center p-24 ${inter.className} text-black`}
     >
+
+      <Head>
+        <title>Homepage</title>
+      </Head>
+
       <p>{message}</p>
 
-      <div><span>Last update: {date} </span><span id="time-container"></span></div>
+      <div>Last update: {date}</div>
 
       <div className='flex flex-col items-center gap-4'>
         <br />
